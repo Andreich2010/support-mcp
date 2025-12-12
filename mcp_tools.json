@@ -1,0 +1,300 @@
+[
+  {
+    "name": "get_new_tickets",
+    "description": "Получает новые тикеты GitHub за последние N минут.",
+    "args": [
+      {
+        "name": "since_minutes",
+        "type": "integer",
+        "description": "Интервал в минутах, за который проверять новые тикеты."
+      }
+    ]
+  },
+  {
+    "name": "get_ticket_detail",
+    "description": "Возвращает полную информацию о тикете GitHub.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub (после #)."
+      }
+    ]
+  },
+  {
+    "name": "post_ticket_reply",
+    "description": "Создаёт комментарий в тикете GitHub.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "reply_text",
+        "type": "string",
+        "description": "Текст комментария."
+      }
+    ]
+  },
+  {
+    "name": "get_ticket_last_comment",
+    "description": "Получает последний комментарий тикета.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      }
+    ]
+  },
+  {
+    "name": "update_ticket_meta",
+    "description": "Обновляет приоритет/исполнителя/лейблы тикета.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "priority",
+        "type": "string",
+        "description": "Приоритет (например: low, medium, high, urgent)."
+      },
+      {
+        "name": "labels",
+        "type": "array",
+        "description": "Список labels, которые нужно установить."
+      },
+      {
+        "name": "assignee",
+        "type": "string",
+        "description": "Логин исполнителя."
+      }
+    ]
+  },
+  {
+    "name": "classify_ticket",
+    "description": "Классифицирует тикет по типу и приоритету.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      }
+    ]
+  },
+  {
+    "name": "request_more_info",
+    "description": "Формирует уточняющие вопросы пользователю и отправляет их в тикет.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      }
+    ]
+  },
+  {
+    "name": "close_ticket",
+    "description": "Закрывает тикет, при необходимости добавляет финальный комментарий и лейбл.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "final_comment",
+        "type": "string",
+        "description": "Финальный комментарий перед закрытием (опционально)."
+      },
+      {
+        "name": "resolution_label",
+        "type": "string",
+        "description": "Лейбл, который добавляется при закрытии (по умолчанию resolved)."
+      }
+    ]
+  },
+  {
+    "name": "get_stale_tickets",
+    "description": "Ищет открытые тикеты без активности дольше N дней.",
+    "args": [
+      {
+        "name": "inactive_days",
+        "type": "integer",
+        "description": "Число дней без активности."
+      }
+    ]
+  },
+  {
+    "name": "analyze_ticket_error",
+    "description": "Анализирует ошибки/логи по тексту тикета и комментариев.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "comments_limit",
+        "type": "integer",
+        "description": "Сколько последних комментариев учитывать."
+      },
+      {
+        "name": "post_comment",
+        "type": "boolean",
+        "description": "Публиковать ли результат анализа в тикете."
+      }
+    ]
+  },
+  {
+    "name": "list_docs",
+    "description": "Перечисляет файлы документации (RAG).",
+    "args": []
+  },
+  {
+    "name": "search_docs",
+    "description": "Ищет релевантные фрагменты в документации (RAG).",
+    "args": [
+      {
+        "name": "query",
+        "type": "string",
+        "description": "Поисковый запрос."
+      },
+      {
+        "name": "max_results",
+        "type": "integer",
+        "description": "Максимальное количество фрагментов."
+      }
+    ]
+  },
+  {
+    "name": "answer_from_docs",
+    "description": "Отвечает на вопрос на основе локальной документации (RAG).",
+    "args": [
+      {
+        "name": "query",
+        "type": "string",
+        "description": "Вопрос пользователя."
+      },
+      {
+        "name": "max_context_fragments",
+        "type": "integer",
+        "description": "Сколько фрагментов документации использовать."
+      }
+    ]
+  },
+  {
+    "name": "create_subtasks_from_ticket",
+    "description": "Разбивает задачу на подзадачи и создаёт sub-issues.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер родительского issue."
+      },
+      {
+        "name": "max_subtasks",
+        "type": "integer",
+        "description": "Максимальное число подзадач."
+      },
+      {
+        "name": "dry_run",
+        "type": "boolean",
+        "description": "Не создавать issues, а только вернуть предложенные подзадачи."
+      }
+    ]
+  },
+  {
+    "name": "translate_ticket",
+    "description": "Переводит тикет (title/body/комментарии) на указанный язык.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "target_lang",
+        "type": "string",
+        "description": "Целевой язык (например, ru или en)."
+      },
+      {
+        "name": "include_comments",
+        "type": "boolean",
+        "description": "Переводить ли комментарии."
+      },
+      {
+        "name": "comments_limit",
+        "type": "integer",
+        "description": "Сколько последних комментариев переводить."
+      },
+      {
+        "name": "post_comment",
+        "type": "boolean",
+        "description": "Публиковать ли перевод в тикете."
+      }
+    ]
+  },
+  {
+    "name": "generate_support_report",
+    "description": "Генерирует краткий отчёт по тикетам за период.",
+    "args": [
+      {
+        "name": "period_days",
+        "type": "integer",
+        "description": "За сколько дней строить отчёт."
+      }
+    ]
+  },
+  {
+    "name": "auto_resolve_ticket",
+    "description": "Пытается автоматически решить тикет и при желании закрыть его.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "close_if_possible",
+        "type": "boolean",
+        "description": "Закрывать ли тикет автоматически при успешном решении."
+      }
+    ]
+  },
+  {
+    "name": "answer_ticket_question",
+    "description": "Отвечает на последний вопрос пользователя в тикете (/ask-ai).",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "comments_limit",
+        "type": "integer",
+        "description": "Сколько последних комментариев учитывать."
+      }
+    ]
+  },
+  {
+    "name": "summarize_ticket",
+    "description": "Создаёт краткое резюме тикета для 2-й линии и менеджеров.",
+    "args": [
+      {
+        "name": "issue_number",
+        "type": "integer",
+        "description": "Номер issue в GitHub."
+      },
+      {
+        "name": "comments_limit",
+        "type": "integer",
+        "description": "Сколько последних комментариев включить в резюме."
+      }
+    ]
+  }
+]

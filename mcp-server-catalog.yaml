@@ -1,0 +1,166 @@
+# Каталог MCP-сервера для Cloud.ru Evolution AI Agents
+
+id: "support-github-helpdesk-mcp"
+name: "GitHub Support HelpDesk MCP"
+description: |
+  MCP-сервер для автоматизации работы службы поддержки на базе GitHub Issues.
+  Позволяет AI-агенту:
+  - получать новые тикеты (issues) из выбранного репозитория;
+  - смотреть подробности конкретного тикета;
+  - добавлять комментарии-ответы в тикет от имени сервисного аккаунта.
+
+tools:
+  - name: "get_new_tickets"
+    description: "Получение новых тикетов (issues) из GitHub-репозитория за последние N минут."
+    parameters:
+      since_minutes: "integer – интервал в минутах, за который нужно посмотреть новые тикеты (1–1440)."
+
+  - name: "get_ticket_detail"
+    description: "Получение подробной информации о тикете GitHub по номеру."
+    parameters:
+      issue_number: "integer – номер issue, как отображается на GitHub (после символа #)."
+
+  - name: "post_ticket_reply"
+    description: "Добавление комментария в тикет GitHub по номеру."
+    parameters:
+      issue_number: "integer – номер issue, в который нужно добавить комментарий."
+      reply_text: "string – текст комментария, который нужно оставить в тикете."
+
+  - name: "get_ticket_last_comment"
+    description: "Получение последнего комментария по тикету GitHub."
+    parameters:
+      issue_number: "integer – номер issue, для которого нужно получить последний комментарий."
+
+  - name: "update_ticket_meta"
+    description: "Обновление метаданных тикета: приоритет, метки (labels), исполнитель (assignee)."
+    parameters:
+      issue_number: "integer – номер issue, метаданные которого нужно обновить."
+      priority: "string (optional) – приоритет тикета: low, medium, high, urgent."
+      labels: "array[string] (optional) – список labels, которые нужно установить для тикета."
+      assignee: "string (optional) – логин пользователя GitHub, назначаемого исполнителем."
+
+  - name: "classify_ticket"
+    description: "Автоматическая классификация тикета (тип: bug/feature/question/support и приоритет)."
+    parameters:
+      issue_number: "integer – номер issue, который нужно классифицировать."
+
+  - name: "request_more_info"
+    description: "Автоформирование уточняющих вопросов пользователю на основе последнего комментария."
+    parameters:
+      issue_number: "integer – номер issue, по которому нужно запросить дополнительную информацию."
+
+  - name: "close_ticket"
+    description: "Аккуратное закрытие тикета с финальным комментарием и установкой метки результата."
+    parameters:
+      issue_number: "integer – номер issue, который нужно закрыть."
+      final_comment: "string (optional) – финальный комментарий перед закрытием тикета."
+      resolution_label: "string (optional) – метка для закрытого тикета (по умолчанию 'resolved')."
+
+  - name: "get_stale_tickets"
+    description: "Поиск открытых тикетов, по которым давно не было активности (зависшие тикеты)."
+    parameters:
+      inactive_days: "integer – количество дней без активности, после которого тикет считается 'застоявшимся'."
+
+  - name: "analyze_ticket_error"
+    description: "Анализ ошибок и логов в тикете (title/body + последние комментарии) и генерация тех. разбора."
+    parameters:
+      issue_number: "integer – номер issue, в котором нужно проанализировать ошибки/логи."
+      comments_limit: "integer (optional) – сколько последних комментариев включать в анализ (0–20)."
+      post_comment: "boolean (optional) – публиковать ли результат анализа в виде комментария в тикете."
+
+  - name: "list_docs"
+    description: "Список доступных файлов локальной документации (RAG)."
+    parameters: {}
+
+  - name: "search_docs"
+    description: "Поиск по локальной документации (RAG) и возврат релевантных фрагментов."
+    parameters:
+      query: "string – поисковый запрос по документации."
+      max_results: "integer (optional) – максимальное количество фрагментов документации (1–20)."
+
+  - name: "answer_from_docs"
+    description: "Ответ на вопрос пользователя на основе локальной документации (RAG)."
+    parameters:
+      query: "string – вопрос пользователя, на который нужно ответить."
+      max_context_fragments: "integer (optional) – количество фрагментов документации для контекста (1–20)."
+
+  - name: "create_subtasks_from_ticket"
+    description: "Автоматическое разбиение тикета на подзадачи и создание sub-issues в GitHub."
+    parameters:
+      issue_number: "integer – номер родительского issue, из которого нужно сделать подзадачи."
+      max_subtasks: "integer (optional) – максимальное количество подзадач (1–20)."
+      dry_run: "boolean (optional) – если true, только сгенерировать подзадачи, без создания issues."
+
+  - name: "translate_ticket"
+    description: "Перевод тикета (title/body/комментарии) на указанный язык."
+    parameters:
+      issue_number: "integer – номер issue, который нужно перевести."
+      target_lang: "string – целевой язык перевода (например, 'ru', 'en')."
+      include_comments: "boolean (optional) – включать ли в перевод последние комментарии."
+      comments_limit: "integer (optional) – сколько последних комментариев переводить (0–20)."
+      post_comment: "boolean (optional) – публиковать ли результат перевода в комментарии тикета."
+
+  - name: "generate_support_report"
+    description: "Генерация менеджерского отчёта по тикетам за заданный период."
+    parameters:
+      period_days: "integer – период в днях, за который строится отчёт (1–90)."
+
+  - name: "auto_resolve_ticket"
+    description: "Попытка автоматического решения тикета (self-healing) с ответом и опциональным закрытием."
+    parameters:
+      issue_number: "integer – номер issue, который нужно попытаться решить автоматически."
+      close_if_possible: "boolean (optional) – закрывать ли тикет автоматически при успешном решении."
+
+  - name: "answer_ticket_question"
+    description: "Ответ AI-помощника на последний вопрос пользователя в тикете (/ask-ai)."
+    parameters:
+      issue_number: "integer – номер issue, в котором нужно ответить пользователю."
+      comments_limit: "integer (optional) – сколько последних комментариев учитывать при формировании ответа."
+
+  - name: "summarize_ticket"
+    description: "Краткое резюме тикета (summary) для 2-й линии и менеджеров."
+    parameters:
+      issue_number: "integer – номер issue, по которому нужно сделать резюме."
+      comments_limit: "integer (optional) – сколько последних комментариев включить в резюме."
+
+rawEnvs:
+  GITHUB_REPO:
+    isRequired: true
+    description: "GitHub-репозиторий в формате owner/repo (источник тикетов), например: 'Andreich2010/support-mcp-demo'."
+  HOST:
+    isRequired: false
+    description: "Хост MCP-сервера."
+    defaultValue: "0.0.0.0"
+  PORT:
+    isRequired: false
+    description: "Порт MCP-сервера."
+    defaultValue: "8000"
+  DOCS_DIR:
+    isRequired: false
+    description: "Каталог с локальной документацией для RAG (по умолчанию 'docs')."
+    defaultValue: "docs"
+
+secretEnvs:
+  GITHUB_TOKEN:
+    isRequired: true
+    description: "GitHub token с правами на чтение/запись issues и комментариев."
+
+
+image_uri: ${IMAGE_URI}
+license_url: "https://opensource.org/license/mit"
+tags:
+  - "support"
+  - "helpdesk"
+  - "github"
+  - "mcp"
+  - "ai-agent"
+category: "Customer Support Automation"
+versions:
+  - "0.1.0"
+
+exposed_ports:
+  - port: 8000
+    protocol: "HTTP"
+
+status: "MCP_SERVER_PREDEFINED_STATUS_AVAILABLE"
+type: "MCP_SERVER_PREDEFINED_TYPE_INTERNAL"

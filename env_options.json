@@ -1,0 +1,24 @@
+{
+  "rawEnvs": {
+    "GITHUB_REPO": {
+      "isRequired": true,
+      "description": "GitHub-репозиторий в формате owner/repo, из которого берутся тикеты (issues)"
+    },
+    "HOST": {
+      "isRequired": false,
+      "description": "Хост MCP-сервера (по умолчанию 0.0.0.0)",
+      "defaultValue": "0.0.0.0"
+    },
+    "PORT": {
+      "isRequired": false,
+      "description": "Порт MCP-сервера",
+      "defaultValue": "8000"
+    }
+  },
+  "secretEnvs": {
+    "GITHUB_TOKEN": {
+      "isRequired": true,
+      "description": "Персональный GitHub token с правами на чтение и запись issues/комментариев в выбранном репозитории"
+    }
+  }
+}

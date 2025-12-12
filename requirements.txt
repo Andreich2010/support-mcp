@@ -1,0 +1,5 @@
+mcp[cli]~=1.22.0
+httpx~=0.28.1
+python-dotenv~=1.2.1
+opentelemetry-api==1.26.0
+pydantic~=2.12.5

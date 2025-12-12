@@ -1,0 +1,11 @@
+.git
+.vscode
+.idea
+__pycache__
+*.pyc
+.env
+.env.*
+venv
+.venv
+.gitignore
+client_test.py
