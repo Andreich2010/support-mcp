@@ -182,3 +182,21 @@ Demo repo (issues): Andreich2010/support-mcp-demo
  Токены не присутствуют в git history
 
  GitHub PAT хранится только в переменных окружения Cloud.ru
+
+
+ Copyright (c) 2025 Andrey Ivanov
+
+This software is licensed under the terms of the
+Creative Commons Attribution-NonCommercial 4.0 International License.
+
+You are free to:
+- Use, study, and modify the code for non-commercial purposes
+- Fork the repository for learning or research
+
+You may NOT:
+- Use this software for commercial purposes
+- Sell, sublicense, or monetize it without explicit permission
+
+For commercial licensing, contact:
+andreich2010@gmail.com
+
